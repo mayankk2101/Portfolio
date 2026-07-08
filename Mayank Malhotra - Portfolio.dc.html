@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Mayank Malhotra — Software Engineer. Backend, AI engineering, systems, and workflow automation." />
+<meta property="og:title" content="Mayank Malhotra — Software Engineer" />
+<meta property="og:description" content="I solve engineering problems. Backend, AI engineering, systems, and automation." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 96px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { font-family: 'Geist', system-ui, sans-serif; }
+  ::selection { background: rgba(124,139,255,0.28); }
+  a { color: inherit; text-decoration: none; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.28); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.45); background-clip: padding-box; }
+  @keyframes blink { 0%,50%{opacity:1;} 51%,100%{opacity:0;} }
+  @keyframes floaty { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-4px);} }
+  @media (max-width: 820px) { .nav-links { display: none !important; } .grid-2 { grid-template-columns: 1fr !important; } .grid-2b { grid-template-columns: 1fr !important; } .hero-h1 { font-size: 15vw !important; } }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="--bg:#08090a; --bg-elev:#0f1012; --panel:#0d0e10; --panel-2:#111214; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.15); --text:#f4f5f6; --text-dim:#9aa0aa; --text-faint:#6a6f79; --accent:#7c8bff; --accent-2:#5fe3c0; --accent-dim:rgba(124,139,255,0.13); --code-bg:#0b0c0e; position:relative; min-height:100vh; background:var(--bg); color:var(--text); overflow-x:hidden; transition:background .5s ease, color .5s ease;">
+
+  <!-- scroll progress -->
+  <div style="position:fixed; top:0; left:0; height:2px; width:100%; z-index:120; background:transparent; pointer-events:none;">
+    <div ref="{{ progressRef }}" style="height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); box-shadow:0 0 12px var(--accent);"></div>
+  </div>
+
+  <!-- three.js canvas -->
+  <div ref="{{ canvasRef }}" style="position:fixed; inset:0; z-index:0; pointer-events:none;"></div>
+  <div style="position:fixed; inset:0; z-index:1; pointer-events:none; background:radial-gradient(120% 90% at 50% 0%, transparent 35%, var(--bg) 92%);"></div>
+
+  <!-- NAV -->
+  <header style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify-content:center; padding:16px 20px;">
+    <nav ref="{{ navRef }}" style="width:100%; max-width:1120px; display:flex; align-items:center; justify-content:space-between; padding:10px 12px 10px 18px; border:1px solid var(--border); border-radius:14px; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); transition:background .3s, border-color .3s;">
+      <a href="#home" onClick="{{ scrollTo }}" data-target="home" style="display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-0.01em;">
+        <span style="display:grid; place-items:center; width:26px; height:26px; border-radius:7px; background:var(--accent-dim); border:1px solid var(--border-strong); font-family:'Geist Mono',monospace; font-size:13px; color:var(--accent);">M</span>
+        <span style="font-size:14.5px;">Mayank Malhotra</span>
+      </a>
+      <div class="nav-links" style="display:flex; align-items:center; gap:4px;">
+        <a id="navlink-about" href="#about" data-target="about" onClick="{{ scrollTo }}" style="padding:7px 12px; border-radius:8px; font-size:13.5px; color:var(--text-dim); transition:color .2s,background .2s;">About</a>
+        <a id="navlink-experience" href="#experience" data-target="experience" onClick="{{ scrollTo }}" style="padding:7px 12px; border-radius:8px; font-size:13.5px; color:var(--text-dim); transition:color .2s,background .2s;">Experience</a>
+        <a id="navlink-work" href="#work" data-target="work" onClick="{{ scrollTo }}" style="padding:7px 12px; border-radius:8px; font-size:13.5px; color:var(--text-dim); transition:color .2s,background .2s;">Work</a>
+        <a id="navlink-skills" href="#skills" data-target="skills" onClick="{{ scrollTo }}" style="padding:7px 12px; border-radius:8px; font-size:13.5px; color:var(--text-dim); transition:color .2s,background .2s;">Skills</a>
+        <a id="navlink-education" href="#education" data-target="education" onClick="{{ scrollTo }}" style="padding:7px 12px; border-radius:8px; font-size:13.5px; color:var(--text-dim); transition:color .2s,background .2s;">Education</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button onClick="{{ openPalette }}" title="Command palette" style="display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:9px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-family:'Geist Mono',monospace; font-size:12px; cursor:pointer; transition:border-color .2s,color .2s;">
+          <span>Search</span><span style="padding:1px 5px; border-radius:5px; border:1px solid var(--border-strong); font-size:11px;">⌘K</span>
+        </button>
+        <button onClick="{{ toggleTheme }}" title="Toggle theme (T)" style="display:grid; place-items:center; width:34px; height:34px; border-radius:9px; border:1px solid var(--border); background:var(--panel-2); color:var(--text); cursor:pointer;">
+          <span ref="{{ themeIconRef }}" style="font-size:15px; line-height:1;">☾</span>
+        </button>
+        <a href="#contact" data-target="contact" onClick="{{ scrollTo }}" style="padding:8px 14px; border-radius:9px; background:var(--text); color:var(--bg); font-size:13.5px; font-weight:600; cursor:pointer;">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main style="position:relative; z-index:2;">
+
+    <!-- HERO -->
+    <section id="home" style="position:relative; min-height:100vh; display:flex; align-items:center; max-width:1120px; margin:0 auto; padding:118px 28px 96px;">
+      <div class="grid-2" style="display:grid; grid-template-columns:1.08fr 0.92fr; gap:52px; align-items:center; width:100%;">
+        <div>
+          <div data-reveal style="display:inline-flex; align-items:center; gap:10px; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:var(--panel); font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-dim); margin-bottom:28px;">
+            <span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);"></span>
+            Open to backend · AI · systems roles
+          </div>
+          <h1 class="hero-h1" data-reveal style="margin:0; font-size:clamp(46px,7.4vw,92px); line-height:0.93; letter-spacing:-0.045em; font-weight:600;">Mayank<br/>Malhotra</h1>
+          <div data-reveal style="margin:22px 0 2px; font-family:'Geist Mono',monospace; font-size:clamp(15px,2.2vw,21px); color:var(--text-dim); display:flex; align-items:center;">
+            <span style="color:var(--accent); margin-right:9px;">&gt;</span>
+            <span ref="{{ roleRef }}" style="color:var(--text);"></span>
+            <span style="width:9px; height:1.05em; background:var(--accent); display:inline-block; margin-left:3px; animation:blink 1s step-end infinite;"></span>
+          </div>
+          <p data-reveal style="max-width:520px; margin:26px 0 0; font-size:clamp(15.5px,1.7vw,18px); line-height:1.62; color:var(--text-dim); letter-spacing:-0.01em;">
+            I build backend systems, AI tooling, and workflow automation. Right now I'm in QA at <span style="color:var(--text);">IBM</span>, on a funds-processing platform for Bank of America — where correctness moves real money. I care more about <span style="color:var(--text);">why a problem is hard</span> than which framework solves it.
+          </p>
+          <div data-reveal style="display:flex; flex-wrap:wrap; gap:11px; margin-top:32px;">
+            <a href="#work" data-target="work" onClick="{{ scrollTo }}" style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:11px; background:var(--text); color:var(--bg); font-weight:600; font-size:14.5px; cursor:pointer;">View selected work →</a>
+            <a href="resume.pdf" download style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:11px; border:1px solid var(--border-strong); background:var(--panel); color:var(--text); font-weight:500; font-size:14.5px; cursor:pointer;">Résumé</a>
+            <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:11px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:14.5px;">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/mayank-malhotra-3b7001265" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:11px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:14.5px;">LinkedIn ↗</a>
+          </div>
+        </div>
+        <div data-reveal style="justify-self:end; width:100%; max-width:430px;">
+          <div style="border:1px solid var(--border-strong); border-radius:14px; background:color-mix(in srgb, var(--bg-elev) 80%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.38);">
+            <div style="display:flex; align-items:center; gap:7px; padding:12px 14px; border-bottom:1px solid var(--border);">
+              <span style="width:11px; height:11px; border-radius:50%; background:#ff5f57;"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#febc2e;"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#28c840;"></span>
+              <span style="margin-left:8px; font-family:'Geist Mono',monospace; font-size:11.5px; color:var(--text-faint);">mayank@portfolio: ~</span>
+            </div>
+            <div ref="{{ termRef }}" style="padding:18px 18px 20px; font-family:'Geist Mono',monospace; font-size:13px; line-height:1.95; min-height:190px;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal style="position:absolute; left:28px; bottom:30px; display:flex; align-items:center; gap:12px; font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint);">
+        <span>Scroll to explore</span>
+        <span style="width:44px; height:1px; background:linear-gradient(90deg,var(--accent),transparent);"></span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" style="max-width:1120px; margin:0 auto; padding:100px 28px;">
+      <div data-reveal style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;">01 — About</div>
+      <div class="grid-2" style="display:grid; grid-template-columns:1.5fr 1fr; gap:56px; align-items:start;">
+        <div>
+          <p data-reveal style="margin:0 0 22px; font-size:clamp(20px,2.4vw,26px); line-height:1.5; letter-spacing:-0.015em; color:var(--text);">
+            I'm a software engineer based in Hyderabad, currently an Application Developer in QA at <span style="color:var(--accent);">IBM</span>, working on a funds-processing system for Bank of America — enterprise software where correctness isn't optional and a single missed edge case moves real money.
+          </p>
+          <p data-reveal style="margin:0 0 18px; font-size:16.5px; line-height:1.7; color:var(--text-dim);">
+            I got here by building. Before IBM I shipped products as a MERN and full-stack developer, and over time my interest kept moving down the stack and toward systems — how software is architected, how data actually flows, and how you make AI genuinely useful inside a real workflow instead of a demo.
+          </p>
+          <p data-reveal style="margin:0; font-size:16.5px; line-height:1.7; color:var(--text-dim);">
+            These days most of my time goes to backend engineering, AI engineering, and automation: designing multi-agent systems, workflow engines, and the unglamorous plumbing that makes them reliable. I like problems without an obvious answer, and I'd rather understand a system deeply than reach for the nearest framework.
+          </p>
+        </div>
+        <div data-reveal style="display:flex; flex-direction:column; gap:12px;">
+          <div style="padding:18px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+            <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:12px;">Currently exploring</div>
+            <div style="display:flex; flex-wrap:wrap; gap:7px;">
+              <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); color:var(--accent); font-size:13px;">Multi-agent systems</span>
+              <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">System design</span>
+              <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Context engineering</span>
+              <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">AWS · Cloud</span>
+              <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Developer tooling</span>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div style="padding:18px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+              <div style="font-size:30px; font-weight:600; letter-spacing:-0.03em;">4+</div>
+              <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">roles across QA & full-stack</div>
+            </div>
+            <div style="padding:18px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+              <div style="font-size:30px; font-weight:600; letter-spacing:-0.03em; color:var(--accent-2);">B.Tech</div>
+              <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">CSE, CGC Landran</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" style="max-width:1120px; margin:0 auto; padding:100px 28px;">
+      <div data-reveal style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;">02 — Experience</div>
+      <h2 data-reveal style="margin:0 0 48px; font-size:clamp(30px,4vw,46px); letter-spacing:-0.03em; font-weight:600;">Where I've built &amp; broken things.</h2>
+
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <!-- IBM -->
+        <div data-reveal style="display:grid; grid-template-columns:180px 1fr; gap:28px; padding:26px 0; border-top:1px solid var(--border);">
+          <div>
+            <div style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent-2);">Present</div>
+            <div style="font-size:13px; color:var(--text-faint); margin-top:6px;">Hyderabad</div>
+          </div>
+          <div>
+            <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+              <h3 style="margin:0; font-size:21px; letter-spacing:-0.02em;">Application Developer — QA</h3>
+              <span style="color:var(--text-dim); font-size:15px;">IBM</span>
+            </div>
+            <div style="font-size:13.5px; color:var(--text-faint); margin:8px 0 14px; font-family:'Geist Mono',monospace;">Client: Bank of America · Funds Processing System · Banking domain</div>
+            <div style="display:flex; flex-wrap:wrap; gap:7px;">
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Enterprise testing</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Functional &amp; Regression</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Defect tracking</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">ALM Octane</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">IBM 3270 · Mainframe</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Jira · Confluence</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Git</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Client demos</span>
+            </div>
+          </div>
+        </div>
+        <!-- Appraise -->
+        <div data-reveal style="display:grid; grid-template-columns:180px 1fr; gap:28px; padding:26px 0; border-top:1px solid var(--border);">
+          <div><div style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-faint);">Prior</div></div>
+          <div>
+            <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+              <h3 style="margin:0; font-size:21px; letter-spacing:-0.02em;">MERN Developer</h3>
+              <span style="color:var(--text-dim); font-size:15px;">Appraise</span>
+            </div>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.6; color:var(--text-dim);">Built and shipped full-stack features across MongoDB, Express, React and Node — end-to-end product work from API to UI.</p>
+          </div>
+        </div>
+        <!-- HopingMinds -->
+        <div data-reveal style="display:grid; grid-template-columns:180px 1fr; gap:28px; padding:26px 0; border-top:1px solid var(--border);">
+          <div><div style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-faint);">Prior</div></div>
+          <div>
+            <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+              <h3 style="margin:0; font-size:21px; letter-spacing:-0.02em;">Full Stack Developer</h3>
+              <span style="color:var(--text-dim); font-size:15px;">HopingMinds</span>
+            </div>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.6; color:var(--text-dim);">Delivered full-stack applications — designing data models, REST APIs, and responsive frontends against real requirements.</p>
+          </div>
+        </div>
+        <!-- Solitaire -->
+        <div data-reveal style="display:grid; grid-template-columns:180px 1fr; gap:28px; padding:26px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+          <div><div style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-faint);">Prior</div></div>
+          <div>
+            <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+              <h3 style="margin:0; font-size:21px; letter-spacing:-0.02em;">React Developer</h3>
+              <span style="color:var(--text-dim); font-size:15px;">Solitaire Infosys</span>
+            </div>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.6; color:var(--text-dim);">Built component-driven React interfaces with a focus on reusable UI and clean state management.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" style="max-width:1120px; margin:0 auto; padding:100px 28px;">
+      <div data-reveal style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:16px;">
+        <div>
+          <div style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;">03 — Selected Work</div>
+          <h2 style="margin:0; font-size:clamp(30px,4vw,46px); letter-spacing:-0.03em; font-weight:600;">Systems, not screens.</h2>
+        </div>
+      </div>
+
+      <!-- filter + search -->
+      <div data-reveal style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:28px 0 32px;">
+        <div ref="{{ filterRef }}" style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button data-filter="all" onClick="{{ filterProjects }}" style="padding:8px 14px; border-radius:9px; border:1px solid var(--border-strong); background:var(--text); color:var(--bg); font-size:13px; font-weight:500; cursor:pointer;">All</button>
+          <button data-filter="ai" onClick="{{ filterProjects }}" style="padding:8px 14px; border-radius:9px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:13px; cursor:pointer;">AI</button>
+          <button data-filter="backend" onClick="{{ filterProjects }}" style="padding:8px 14px; border-radius:9px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:13px; cursor:pointer;">Backend</button>
+          <button data-filter="automation" onClick="{{ filterProjects }}" style="padding:8px 14px; border-radius:9px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:13px; cursor:pointer;">Automation</button>
+          <button data-filter="fullstack" onClick="{{ filterProjects }}" style="padding:8px 14px; border-radius:9px; border:1px solid var(--border); background:var(--panel); color:var(--text-dim); font-size:13px; cursor:pointer;">Full-stack</button>
+        </div>
+        <div style="margin-left:auto; display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:9px; border:1px solid var(--border); background:var(--panel); min-width:200px;">
+          <span style="color:var(--text-faint); font-size:14px;">⌕</span>
+          <input ref="{{ searchRef }}" onInput="{{ searchProjects }}" placeholder="Search projects…" style="border:none; outline:none; background:transparent; color:var(--text); font-family:'Geist',sans-serif; font-size:14px; width:100%;" />
+        </div>
+      </div>
+
+      <div ref="{{ projectsRef }}" style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- PROJECT 1 -->
+        <article data-reveal data-tags="ai automation backend" data-search="multi-agent orchestration framework workflow engine knowledge graph ai context engineering" style="border:1px solid var(--border); border-radius:18px; background:var(--panel); overflow:hidden;">
+          <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:0;" class="grid-2">
+            <div style="padding:34px 34px 30px;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+                <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent);">FLAGSHIP</span>
+                <span style="width:5px; height:5px; border-radius:50%; background:var(--text-faint);"></span>
+                <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-faint);">AI · Systems</span>
+              </div>
+              <h3 style="margin:0 0 12px; font-size:27px; letter-spacing:-0.025em;">Multi-Agent Orchestration Framework</h3>
+              <p style="margin:0 0 20px; font-size:15.5px; line-height:1.65; color:var(--text-dim);">An engineering platform that turns a single AI into a coordinated team of specialized engineering agents — with a workflow engine, a shared knowledge graph, validation, and review pipelines governing every step.</p>
+              <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px;">
+                <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Multi-agent</span>
+                <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Workflow engine</span>
+                <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Knowledge graph</span>
+                <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Token optimization</span>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button data-project="p1" onClick="{{ toggleProject }}" style="display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:10px; background:var(--text); color:var(--bg); font-size:13.5px; font-weight:600; cursor:pointer; border:none;">Read case study <span data-arrow="p1" style="transition:transform .3s;">↓</span></button>
+                <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="padding:10px 16px; border-radius:10px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-size:13.5px;">GitHub ↗</a>
+              </div>
+            </div>
+            <!-- mini architecture viz -->
+            <div style="position:relative; border-left:1px solid var(--border); background:linear-gradient(135deg, var(--panel-2), var(--panel)); min-height:230px; display:grid; place-items:center; padding:20px;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:12px; font-family:'Geist Mono',monospace; font-size:11px; color:var(--text-dim);">
+                <div style="padding:8px 14px; border:1px solid var(--accent); border-radius:8px; color:var(--accent); background:var(--accent-dim);">Orchestrator</div>
+                <div style="width:1px; height:16px; background:var(--border-strong);"></div>
+                <div style="display:flex; gap:10px;">
+                  <div style="padding:7px 10px; border:1px solid var(--border-strong); border-radius:8px; background:var(--bg-elev);">Planner</div>
+                  <div style="padding:7px 10px; border:1px solid var(--border-strong); border-radius:8px; background:var(--bg-elev);">Builder</div>
+                  <div style="padding:7px 10px; border:1px solid var(--border-strong); border-radius:8px; background:var(--bg-elev);">Reviewer</div>
+                </div>
+                <div style="width:1px; height:16px; background:var(--border-strong);"></div>
+                <div style="padding:7px 12px; border:1px dashed var(--border-strong); border-radius:8px; color:var(--accent-2);">Knowledge Graph</div>
+              </div>
+            </div>
+          </div>
+          <!-- expandable case study -->
+          <div data-detail="p1" style="max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.16,1,.3,1);">
+            <div style="padding:8px 34px 34px; border-top:1px solid var(--border);">
+              <div class="grid-2b" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:26px;">
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Problem</div>
+                  <p style="margin:0 0 20px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">A single AI agent hits a ceiling on complex engineering work — it loses context, mixes concerns, and produces plausible-but-wrong output with no accountability. There was no structured way to divide a hard task, verify each step, and keep a shared source of truth.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Solution</div>
+                  <p style="margin:0 0 20px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">A framework that decomposes work across specialized agents (planning, implementation, review, documentation), coordinated by a workflow engine. A knowledge graph holds shared context; validation and review pipelines gate every transition; governance rules keep agents in-scope; token budgets are optimized per stage.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Tech stack</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Python</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">TypeScript</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">LLM APIs</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Graph store</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Node.js</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Architecture — execution flow</div>
+                  <div style="padding:18px; border:1px solid var(--border); border-radius:12px; background:var(--code-bg); font-family:'Geist Mono',monospace; font-size:12px; line-height:1.9; color:var(--text-dim); margin-bottom:20px;">
+                    <div><span style="color:var(--accent);">task</span> → Orchestrator</div>
+                    <div style="padding-left:14px;">├─ Planner → decomposition</div>
+                    <div style="padding-left:14px;">├─ Builder → implementation</div>
+                    <div style="padding-left:14px;">├─ Reviewer → validation ✓</div>
+                    <div style="padding-left:14px;">└─ Docs → knowledge graph</div>
+                    <div style="margin-top:6px; color:var(--accent-2);">↺ review pipeline gates each hop</div>
+                  </div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Challenges</div>
+                  <p style="margin:0 0 16px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">Keeping agents coordinated without runaway token cost; preventing context drift across handoffs; making review deterministic enough to trust.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Lessons learned</div>
+                  <p style="margin:0; font-size:14.5px; line-height:1.65; color:var(--text-dim);">Context engineering matters more than model choice. A strict validation gate beats a smarter prompt. Governance is what turns a clever demo into a system you can rely on.</p>
+                </div>
+              </div>
+              <div style="margin-top:26px;">
+                <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:10px;">Architecture gallery</div>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+                  <div style="aspect-ratio:16/10; border:1px dashed var(--border-strong); border-radius:10px; display:grid; place-items:center; color:var(--text-faint); font-size:12.5px; background:var(--panel-2);">Agent pipeline diagram</div>
+                  <div style="aspect-ratio:16/10; border:1px dashed var(--border-strong); border-radius:10px; display:grid; place-items:center; color:var(--text-faint); font-size:12.5px; background:var(--panel-2);">Workflow diagram</div>
+                  <div style="aspect-ratio:16/10; border:1px dashed var(--border-strong); border-radius:10px; display:grid; place-items:center; color:var(--text-faint); font-size:12.5px; background:var(--panel-2);">Knowledge graph view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 2 -->
+        <article data-reveal data-tags="ai fullstack backend" data-search="enterprise workforce management platform ai assisted development requirements engineering" style="border:1px solid var(--border); border-radius:18px; background:var(--panel); overflow:hidden;">
+          <div style="padding:34px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+              <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent-2);">AI-ASSISTED DEVELOPMENT</span>
+            </div>
+            <h3 style="margin:0 0 12px; font-size:24px; letter-spacing:-0.025em;">Enterprise Workforce Management Platform</h3>
+            <p style="margin:0 0 20px; max-width:760px; font-size:15.5px; line-height:1.65; color:var(--text-dim);">A workforce management platform built with an AI-assisted workflow. I want to be honest about my role here: I owned the product thinking and engineering direction, and used AI to accelerate implementation — not to replace judgment.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px;">
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Product planning</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Requirements engineering</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Workflow design</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Code review</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button data-project="p2" onClick="{{ toggleProject }}" style="display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:10px; border:1px solid var(--border-strong); background:var(--panel-2); color:var(--text); font-size:13.5px; font-weight:600; cursor:pointer;">Read case study <span data-arrow="p2" style="transition:transform .3s;">↓</span></button>
+              <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="padding:10px 16px; border-radius:10px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-size:13.5px;">GitHub ↗</a>
+            </div>
+          </div>
+          <div data-detail="p2" style="max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.16,1,.3,1);">
+            <div style="padding:8px 34px 34px; border-top:1px solid var(--border);">
+              <div class="grid-2b" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:26px;">
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">My role — honestly</div>
+                  <p style="margin:0 0 16px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">Product planning, requirements engineering, and workflow design were mine. Implementation was AI-guided: I directed the build, reviewed every change, tested, deployed, and wrote the documentation. I did not independently architect every line — I engineered the process that produced it.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Responsibilities</div>
+                  <ul style="margin:0; padding-left:18px; font-size:14.5px; line-height:1.8; color:var(--text-dim);">
+                    <li>Product planning &amp; requirements engineering</li>
+                    <li>Workflow design &amp; AI-guided implementation</li>
+                    <li>Code review, testing, deployment</li>
+                    <li>Documentation</li>
+                  </ul>
+                </div>
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Tech stack</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px;">
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Next.js</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">TypeScript</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">PostgreSQL</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Prisma</span>
+                  </div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Lessons learned</div>
+                  <p style="margin:0; font-size:14.5px; line-height:1.65; color:var(--text-dim);">AI-assisted development is a force multiplier only if you bring the rigor: clear requirements, disciplined review, and real testing. The engineering is in the process, not the autocomplete.</p>
+                  <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div style="aspect-ratio:16/10; border:1px dashed var(--border-strong); border-radius:10px; display:grid; place-items:center; color:var(--text-faint); font-size:12px; background:var(--panel-2);">Screenshot</div>
+                    <div style="aspect-ratio:16/10; border:1px dashed var(--border-strong); border-radius:10px; display:grid; place-items:center; color:var(--text-faint); font-size:12px; background:var(--panel-2);">Screenshot</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 3 -->
+        <article data-reveal data-tags="automation backend ai" data-search="automated discovery data intelligence platform web automation extraction pipeline structured datasets search" style="border:1px solid var(--border); border-radius:18px; background:var(--panel); overflow:hidden;">
+          <div style="padding:34px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+              <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent);">AUTOMATION · DATA</span>
+            </div>
+            <h3 style="margin:0 0 12px; font-size:24px; letter-spacing:-0.025em;">Automated Discovery &amp; Data Intelligence Platform</h3>
+            <p style="margin:0 0 20px; max-width:760px; font-size:15.5px; line-height:1.65; color:var(--text-dim);">A pipeline for automated discovery: web automation and search that crawls sources, extracts and structures data, and turns messy inputs into clean, queryable datasets — reliably and at scale.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px;">
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Web automation</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Data extraction</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Pipelines</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Structured datasets</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button data-project="p3" onClick="{{ toggleProject }}" style="display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:10px; border:1px solid var(--border-strong); background:var(--panel-2); color:var(--text); font-size:13.5px; font-weight:600; cursor:pointer;">Read case study <span data-arrow="p3" style="transition:transform .3s;">↓</span></button>
+              <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="padding:10px 16px; border-radius:10px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-size:13.5px;">GitHub ↗</a>
+            </div>
+          </div>
+          <div data-detail="p3" style="max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.16,1,.3,1);">
+            <div style="padding:8px 34px 34px; border-top:1px solid var(--border);">
+              <div class="grid-2b" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:26px;">
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Problem</div>
+                  <p style="margin:0 0 20px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">Useful information is scattered across the web in inconsistent, unstructured formats. Collecting it by hand doesn't scale and breaks the moment a source changes.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Solution</div>
+                  <p style="margin:0; font-size:14.5px; line-height:1.65; color:var(--text-dim);">A resilient automation pipeline: search &amp; discovery → headless web automation → extraction &amp; normalization → validation → structured store. Built to degrade gracefully and resume cleanly.</p>
+                </div>
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Architecture — pipeline</div>
+                  <div style="padding:18px; border:1px solid var(--border); border-radius:12px; background:var(--code-bg); font-family:'Geist Mono',monospace; font-size:12px; line-height:1.9; color:var(--text-dim); margin-bottom:20px;">
+                    <div><span style="color:var(--accent);">discover</span> → search + seed URLs</div>
+                    <div>↓ <span style="color:var(--text-faint);">headless automation</span></div>
+                    <div>↓ extract → normalize</div>
+                    <div>↓ validate ✓</div>
+                    <div><span style="color:var(--accent-2);">→ structured dataset</span></div>
+                  </div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Tech stack</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Python</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Node.js</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Headless browser</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">PostgreSQL</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 4 -->
+        <article data-reveal data-tags="fullstack backend" data-search="placement portal academic authentication recruiters students job posting applications rest apis" style="border:1px solid var(--border); border-radius:18px; background:var(--panel); overflow:hidden;">
+          <div style="padding:34px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+              <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--text-faint);">ACADEMIC PROJECT · FULL-STACK</span>
+            </div>
+            <h3 style="margin:0 0 12px; font-size:24px; letter-spacing:-0.025em;">Placement Portal</h3>
+            <p style="margin:0 0 20px; max-width:760px; font-size:15.5px; line-height:1.65; color:var(--text-dim);">A campus placement platform connecting students and recruiters — authentication, job posting, and applications, backed by clean REST APIs.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px;">
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Authentication</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">REST APIs</span>
+              <span style="padding:4px 10px; border-radius:7px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Role-based access</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button data-project="p4" onClick="{{ toggleProject }}" style="display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:10px; border:1px solid var(--border-strong); background:var(--panel-2); color:var(--text); font-size:13.5px; font-weight:600; cursor:pointer;">Read case study <span data-arrow="p4" style="transition:transform .3s;">↓</span></button>
+              <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="padding:10px 16px; border-radius:10px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-size:13.5px;">GitHub ↗</a>
+            </div>
+          </div>
+          <div data-detail="p4" style="max-height:0; overflow:hidden; transition:max-height .55s cubic-bezier(.16,1,.3,1);">
+            <div style="padding:8px 34px 34px; border-top:1px solid var(--border);">
+              <div class="grid-2b" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:26px;">
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Overview</div>
+                  <p style="margin:0 0 16px; font-size:14.5px; line-height:1.65; color:var(--text-dim);">Two roles — students and recruiters — with distinct flows: recruiters post jobs, students browse and apply, and applications are tracked end to end. Authentication and role-based access control gate every route.</p>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Features</div>
+                  <ul style="margin:0; padding-left:18px; font-size:14.5px; line-height:1.8; color:var(--text-dim);">
+                    <li>Authentication for recruiters &amp; students</li>
+                    <li>Job posting &amp; application management</li>
+                    <li>REST APIs with role-based access</li>
+                  </ul>
+                </div>
+                <div>
+                  <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;">Tech stack</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">React</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Node.js</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">Express</span>
+                    <span style="padding:4px 9px; border-radius:6px; background:var(--panel-2); border:1px solid var(--border); font-size:12px; color:var(--text-dim);">MongoDB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div ref="{{ noResultsRef }}" style="display:none; padding:48px; text-align:center; color:var(--text-faint); font-family:'Geist Mono',monospace; font-size:14px; border:1px dashed var(--border); border-radius:14px;">No projects match that filter.</div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" style="max-width:1120px; margin:0 auto; padding:100px 28px;">
+      <div data-reveal style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;">04 — Skills</div>
+      <h2 data-reveal style="margin:0 0 48px; font-size:clamp(30px,4vw,46px); letter-spacing:-0.03em; font-weight:600;">The toolkit.</h2>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;">
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;">Languages</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">JavaScript</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">TypeScript</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Python</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">C++</span>
+          </div>
+        </div>
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;">Frontend</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">React</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Next.js</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">HTML</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">CSS</span>
+          </div>
+        </div>
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;">Backend</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Node.js</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Express.js</span>
+          </div>
+        </div>
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;">Databases</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">PostgreSQL</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">MongoDB</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Prisma</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Supabase</span>
+          </div>
+        </div>
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel);">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;">Cloud &amp; DevOps</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">AWS</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Docker</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Git · GitHub</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">GitHub Actions</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Nginx · PM2</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Vercel</span>
+          </div>
+        </div>
+        <div style="padding:22px; border:1px solid var(--border); border-radius:14px; background:var(--panel); grid-column:span 2;">
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:14px;">Software Engineering &amp; AI</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">System Design</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">API Design</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">Database Design</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Technical Documentation</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Testing · Enterprise QA</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">AI Engineering</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">Workflow Automation</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Prompt Engineering</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Context Engineering</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--accent-dim); border:1px solid var(--border); font-size:13px; color:var(--accent);">Multi-Agent Systems</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:13px; color:var(--text-dim);">Knowledge Graphs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION + CERTS -->
+    <section id="education" style="max-width:1120px; margin:0 auto; padding:100px 28px;">
+      <div data-reveal style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:22px;">05 — Education &amp; Certifications</div>
+      <div class="grid-2" style="display:grid; grid-template-columns:1.4fr 1fr; gap:24px; align-items:start;">
+        <div data-reveal style="padding:30px; border:1px solid var(--border); border-radius:16px; background:var(--panel);">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <h3 style="margin:0; font-size:22px; letter-spacing:-0.02em;">B.Tech — Computer Science &amp; Engineering</h3>
+            <span style="font-family:'Geist Mono',monospace; font-size:14px; color:var(--accent-2);">CGPA 7.62</span>
+          </div>
+          <div style="font-size:14.5px; color:var(--text-dim); margin:8px 0 22px;">CGC Landran (Chandigarh Group of Colleges)</div>
+          <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom:12px;">Relevant coursework</div>
+          <div style="display:flex; flex-wrap:wrap; gap:7px;">
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Data Structures</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Algorithms</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Operating Systems</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">DBMS</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Computer Networks</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Software Engineering</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">AI</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">ML</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Web Technologies</span>
+            <span style="padding:5px 11px; border-radius:8px; background:var(--panel-2); border:1px solid var(--border); font-size:12.5px; color:var(--text-dim);">Compiler Design</span>
+          </div>
+        </div>
+        <div data-reveal style="display:flex; flex-direction:column; gap:12px;">
+          <div style="padding:18px 20px; border:1px solid var(--border); border-radius:13px; background:var(--panel); display:flex; align-items:center; gap:14px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent);">AWS</span>
+            <span style="font-size:15px;">Cloud Practitioner</span>
+          </div>
+          <div style="padding:18px 20px; border:1px solid var(--border); border-radius:13px; background:var(--panel); display:flex; align-items:center; gap:14px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent);">ISTQB</span>
+            <span style="font-size:15px;">CTFL — Certified Tester Foundation</span>
+          </div>
+          <div style="padding:18px 20px; border:1px solid var(--border); border-radius:13px; background:var(--panel); display:flex; align-items:center; gap:14px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent-2);">FS</span>
+            <span style="font-size:15px;">Full Stack Development</span>
+          </div>
+          <div style="padding:18px 20px; border:1px solid var(--border); border-radius:13px; background:var(--panel); display:flex; align-items:center; gap:14px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent-2);">Ops</span>
+            <span style="font-size:15px;">DevOps Essentials</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="max-width:1120px; margin:0 auto; padding:100px 28px 60px;">
+      <div data-reveal style="border:1px solid var(--border); border-radius:22px; background:linear-gradient(160deg, var(--panel-2), var(--panel)); padding:clamp(36px,6vw,72px); text-align:center; position:relative; overflow:hidden;">
+        <div style="font-family:'Geist Mono',monospace; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:20px;">06 — Contact</div>
+        <h2 style="margin:0 auto; max-width:720px; font-size:clamp(30px,5vw,56px); letter-spacing:-0.03em; line-height:1.05; font-weight:600;">Got a hard problem worth solving?</h2>
+        <p style="margin:22px auto 34px; max-width:520px; font-size:17px; line-height:1.6; color:var(--text-dim);">I'm always up for a conversation about backend, AI systems, or automation. The best way to reach me is LinkedIn.</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="https://www.linkedin.com/in/mayank-malhotra-3b7001265" target="_blank" rel="noopener" style="padding:13px 24px; border-radius:11px; background:var(--text); color:var(--bg); font-weight:600; font-size:15px;">Connect on LinkedIn ↗</a>
+          <a href="https://github.com/mayankk2101" target="_blank" rel="noopener" style="padding:13px 24px; border-radius:11px; border:1px solid var(--border-strong); background:transparent; color:var(--text); font-weight:500; font-size:15px;">GitHub ↗</a>
+        </div>
+      </div>
+      <footer style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:48px; padding-top:28px; border-top:1px solid var(--border); font-family:'Geist Mono',monospace; font-size:12.5px; color:var(--text-faint);">
+        <div>Mayank Malhotra · Hyderabad, India</div>
+        <div>Built as a system, not a template. Press <span style="color:var(--text-dim);">⌘K</span></div>
+      </footer>
+    </section>
+  </main>
+
+  <!-- COMMAND PALETTE -->
+  <div ref="{{ paletteRef }}" onClick="{{ paletteBackdrop }}" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.5); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); padding-top:14vh; justify-content:center;">
+    <div onClick="{{ stop }}" style="width:100%; max-width:560px; height:max-content; margin:0 20px; border:1px solid var(--border-strong); border-radius:16px; background:var(--bg-elev); box-shadow:0 24px 80px rgba(0,0,0,0.5); overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--border);">
+        <span style="color:var(--text-faint); font-size:16px;">⌕</span>
+        <input ref="{{ paletteInputRef }}" onInput="{{ paletteFilter }}" onKeyDown="{{ paletteKeys }}" placeholder="Jump to section, project, or action…" style="border:none; outline:none; background:transparent; color:var(--text); font-family:'Geist',sans-serif; font-size:16px; width:100%;" />
+        <span style="padding:2px 7px; border-radius:6px; border:1px solid var(--border); font-family:'Geist Mono',monospace; font-size:11px; color:var(--text-faint);">ESC</span>
+      </div>
+      <div ref="{{ paletteListRef }}" style="max-height:360px; overflow-y:auto; padding:8px;"></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:720},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#8756c2&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;default&quot;:&quot;dark&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;animatedBackground&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.rootRef = React.createRef();
+    this.canvasRef = React.createRef();
+    this.progressRef = React.createRef();
+    this.navRef = React.createRef();
+    this.themeIconRef = React.createRef();
+    this.roleRef = React.createRef();
+    this.termRef = React.createRef();
+    this.projectsRef = React.createRef();
+    this.filterRef = React.createRef();
+    this.searchRef = React.createRef();
+    this.noResultsRef = React.createRef();
+    this.paletteRef = React.createRef();
+    this.paletteInputRef = React.createRef();
+    this.paletteListRef = React.createRef();
+    this.theme = 'dark';
+    this.paletteItems = [
+      { label: 'Home', hint: 'Section', act: () => this.goto('home') },
+      { label: 'About', hint: 'Section', act: () => this.goto('about') },
+      { label: 'Experience', hint: 'Section', act: () => this.goto('experience') },
+      { label: 'Selected Work', hint: 'Section', act: () => this.goto('work') },
+      { label: 'Skills', hint: 'Section', act: () => this.goto('skills') },
+      { label: 'Education', hint: 'Section', act: () => this.goto('education') },
+      { label: 'Contact', hint: 'Section', act: () => this.goto('contact') },
+      { label: 'Multi-Agent Orchestration Framework', hint: 'Project', act: () => this.openProj('p1') },
+      { label: 'Enterprise Workforce Management', hint: 'Project', act: () => this.openProj('p2') },
+      { label: 'Automated Discovery Platform', hint: 'Project', act: () => this.openProj('p3') },
+      { label: 'Placement Portal', hint: 'Project', act: () => this.openProj('p4') },
+      { label: 'Toggle theme', hint: 'Action', act: () => this.toggleThemeImpl() },
+      { label: 'Open GitHub', hint: 'Link', act: () => window.open('https://github.com/mayankk2101','_blank') },
+      { label: 'Open LinkedIn', hint: 'Link', act: () => window.open('https://www.linkedin.com/in/mayank-malhotra-3b7001265','_blank') },
+    ];
+    this.palIndex = 0;
+    this.palFiltered = this.paletteItems.slice();
+  }
+
+  componentDidMount(){
+    // apply prop overrides
+    const root = this.rootRef.current;
+    if (root){
+      if (this.props.accent) root.style.setProperty('--accent', this.props.accent);
+      if (this.props.defaultTheme === 'light') this.applyTheme('light');
+    }
+    this.initReveal();
+    this.initScroll();
+    this.initKeys();
+    this.buildPalette();
+    this.initHeroText();
+    if (this.props.animatedBackground !== false) this.initThree();
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('resize', this._onResize);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    clearTimeout(this._roleT); clearTimeout(this._termT); clearTimeout(this._revealFallback);
+  }
+
+  // ---------- hero text ----------
+  initHeroText(){
+    const roles = ['Backend Engineer.','AI Engineer.','Systems Thinker.','Automation Engineer.','Problem Solver.'];
+    let ri=0, ci=0, del=false;
+    const tick=()=>{
+      const el=this.roleRef.current; if(!el) return;
+      const w=roles[ri];
+      if(!del){ ci++; if(ci>=w.length){ del=true; el.textContent=w; this._roleT=setTimeout(tick,1500); return; } }
+      else { ci--; if(ci<=0){ del=false; ri=(ri+1)%roles.length; } }
+      el.textContent=w.slice(0,ci);
+      this._roleT=setTimeout(tick, del?42:82);
+    };
+    tick();
+    const term=this.termRef.current;
+    if(term){
+      const lines=[
+        {p:'$ whoami', c:'var(--accent)'},
+        {p:'mayank malhotra — software engineer', c:'var(--text)'},
+        {p:'$ location', c:'var(--accent)'},
+        {p:'hyderabad, india', c:'var(--text-dim)'},
+        {p:'$ focus', c:'var(--accent)'},
+        {p:'backend · ai · systems · automation', c:'var(--text-dim)'},
+        {p:'$ now', c:'var(--accent)'},
+        {p:'application developer (qa) @ ibm', c:'var(--accent-2)'},
+        {p:'  └─ client: bank of america · banking', c:'var(--text-dim)'},
+      ];
+      let li=0;
+      const addLine=()=>{
+        const t=this.termRef.current; if(!t) return;
+        if(li>=lines.length){ const cur=document.createElement('div'); cur.style.cssText='color:var(--accent); margin-top:2px;'; cur.innerHTML='$ <span style="display:inline-block;width:8px;height:1em;background:var(--accent);vertical-align:-2px;animation:blink 1s step-end infinite;"></span>'; t.appendChild(cur); return; }
+        const ln=lines[li]; const d=document.createElement('div');
+        d.style.cssText='white-space:pre-wrap; color:'+ln.c+'; opacity:0; transform:translateY(4px); transition:opacity .3s, transform .3s;';
+        d.textContent=ln.p; t.appendChild(d);
+        requestAnimationFrame(()=>{ d.style.opacity='1'; d.style.transform='none'; });
+        li++; this._termT=setTimeout(addLine, ln.p.trim().startsWith('$')?340:520);
+      };
+      this._termT=setTimeout(addLine, 500);
+    }
+  }
+
+  // ---------- theme ----------
+  applyTheme(t){
+    const root = this.rootRef.current; if(!root) return;
+    this.theme = t;
+    const dark = {
+      '--bg':'#08090a','--bg-elev':'#0f1012','--panel':'#0d0e10','--panel-2':'#111214',
+      '--border':'rgba(255,255,255,0.08)','--border-strong':'rgba(255,255,255,0.15)',
+      '--text':'#f4f5f6','--text-dim':'#9aa0aa','--text-faint':'#6a6f79',
+      '--accent-dim':'rgba(124,139,255,0.13)','--code-bg':'#0b0c0e'
+    };
+    const light = {
+      '--bg':'#f6f7f8','--bg-elev':'#ffffff','--panel':'#ffffff','--panel-2':'#f0f1f3',
+      '--border':'rgba(0,0,0,0.09)','--border-strong':'rgba(0,0,0,0.16)',
+      '--text':'#0c0d0f','--text-dim':'#555b64','--text-faint':'#878c94',
+      '--accent-dim':'rgba(91,99,211,0.10)','--code-bg':'#f2f3f5'
+    };
+    const p = t==='light'?light:dark;
+    Object.keys(p).forEach(k=>root.style.setProperty(k,p[k]));
+    if (t==='light' && !this.props.accent) root.style.setProperty('--accent','#5b63d3');
+    else if (!this.props.accent) root.style.setProperty('--accent','#7c8bff');
+    if (this.themeIconRef.current) this.themeIconRef.current.textContent = t==='light' ? '☀' : '☾';
+    this.threeColor = null; // refresh line color next frame
+  }
+  toggleThemeImpl(){ this.applyTheme(this.theme==='dark'?'light':'dark'); }
+
+  // ---------- reveal (scroll-position based; no IntersectionObserver dependency) ----------
+  initReveal(){
+    const root = this.rootRef.current; if(!root) return;
+    const els = [...root.querySelectorAll('[data-reveal]')];
+    els.forEach(el=>{ el.style.opacity='0'; el.style.transform='translateY(22px)'; el.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)'; });
+    this._revealEls = els;
+    this._checkReveal = () => {
+      if(!this._revealEls || !this._revealEls.length) return;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      this._revealEls = this._revealEls.filter(el=>{
+        const r = el.getBoundingClientRect();
+        if(r.top < vh*0.9 && r.bottom > 0){ el.style.opacity='1'; el.style.transform='none'; return false; }
+        return true;
+      });
+    };
+    // reveal above-the-fold immediately, then keep checking on scroll; hard fallback if anything is somehow still hidden
+    requestAnimationFrame(()=>this._checkReveal());
+    setTimeout(()=>this._checkReveal(), 250);
+    setTimeout(()=>this._checkReveal(), 700);
+    this._revealFallback = setTimeout(()=>{ (this._revealEls||[]).forEach(el=>{ const r=el.getBoundingClientRect(); if(r.top < (window.innerHeight||800)){ el.style.opacity='1'; el.style.transform='none'; } }); }, 1400);
+  }
+
+  // ---------- scroll ----------
+  initScroll(){
+    const sections = ['about','experience','work','skills','education'];
+    this._onScroll = () => {
+      const h = document.documentElement;
+      const sc = h.scrollTop || document.body.scrollTop;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      const p = Math.min(1, sc/max);
+      this.scrollP = p;
+      this.heroP = Math.min(1, Math.max(0, sc/(h.clientHeight*0.85)));
+      if (this._checkReveal) this._checkReveal();
+      if (this.progressRef.current) this.progressRef.current.style.width = (p*100)+'%';
+      const nav = this.navRef.current;
+      if (nav) nav.style.borderColor = sc>20 ? 'var(--border-strong)' : 'var(--border)';
+      // active link
+      let active = null;
+      for (const id of sections){
+        const el = document.getElementById(id);
+        if (el){ const r = el.getBoundingClientRect(); if (r.top <= 120 && r.bottom >= 120) active = id; }
+      }
+      sections.forEach(id=>{
+        const a = document.getElementById('navlink-'+id);
+        if(a){ a.style.color = active===id ? 'var(--text)' : 'var(--text-dim)'; a.style.background = active===id ? 'var(--panel-2)' : 'transparent'; }
+      });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive:true });
+    this._onScroll();
+  }
+
+  // ---------- keys ----------
+  initKeys(){
+    this._onKey = (e) => {
+      const typing = /INPUT|TEXTAREA/.test((e.target||{}).tagName||'');
+      if ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); this.openPaletteImpl(); return; }
+      if (e.key==='Escape'){ this.closePalette(); return; }
+      const palOpen = this.paletteRef.current && this.paletteRef.current.style.display!=='none';
+      if (!typing && !palOpen && e.key.toLowerCase()==='t'){ this.toggleThemeImpl(); }
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+
+  // ---------- nav ----------
+  goto(id){ this.closePalette(); const el=document.getElementById(id); if(el){ const y=el.getBoundingClientRect().top + (document.documentElement.scrollTop||document.body.scrollTop) - 88; window.scrollTo({top:y, behavior:'smooth'}); } }
+  openProj(pid){ this.closePalette(); this.setProjectOpen(pid, true); setTimeout(()=>{ const d=this.rootRef.current.querySelector('[data-detail="'+pid+'"]'); if(d){ const y=d.getBoundingClientRect().top+(document.documentElement.scrollTop||document.body.scrollTop)-120; window.scrollTo({top:y,behavior:'smooth'});} }, 60); }
+
+  setProjectOpen(pid, open){
+    const root=this.rootRef.current; if(!root) return;
+    const d = root.querySelector('[data-detail="'+pid+'"]');
+    const arrow = root.querySelector('[data-arrow="'+pid+'"]');
+    if(!d) return;
+    if(open){ d.style.maxHeight = d.scrollHeight+'px'; if(arrow) arrow.style.transform='rotate(180deg)'; }
+    else { d.style.maxHeight='0px'; if(arrow) arrow.style.transform='none'; }
+  }
+
+  // ---------- three.js : particles morph through software-development imagery across the whole scroll ----------
+  // </>  →  lines of code  →  git commit graph  →  file tree  →  terminal
+  initThree(tries){
+    tries = tries||0;
+    if (typeof window.THREE === 'undefined'){ if(tries<40){ setTimeout(()=>this.initThree(tries+1), 120); } return; }
+    const THREE = window.THREE;
+    const mount = this.canvasRef.current; if(!mount) return;
+    let W = window.innerWidth, H = window.innerHeight;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(58, W/H, 0.1, 3000);
+    camera.position.set(0,0,140);
+    const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+    renderer.setSize(W,H);
+    mount.appendChild(renderer.domElement);
+    scene.fog = new THREE.FogExp2(0x08090a, 0.0016);
+
+    // soft round glow sprite
+    const tex = (()=>{ const c=document.createElement('canvas'); c.width=c.height=64; const g=c.getContext('2d'); const gr=g.createRadialGradient(32,32,0,32,32,32); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.3,'rgba(255,255,255,0.6)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64); return new THREE.CanvasTexture(c); })();
+
+    const N = 1600;
+    const CW = 260, CH = 176, SPAN = 158, SPANY = SPAN*CH/CW;
+
+    // sample a canvas drawing -> N target positions (points sit on the drawn/white pixels)
+    const sampleShape = (draw) => {
+      const c = document.createElement('canvas'); c.width=CW; c.height=CH;
+      const g = c.getContext('2d');
+      g.fillStyle='#000'; g.fillRect(0,0,CW,CH);
+      g.fillStyle='#fff'; g.strokeStyle='#fff'; g.lineJoin='round'; g.lineCap='round';
+      draw(g, CW, CH);
+      const d = g.getImageData(0,0,CW,CH).data;
+      const pts = [];
+      for(let y=0;y<CH;y+=2) for(let x=0;x<CW;x+=2){ if(d[(y*CW+x)*4] > 120) pts.push([x,y]); }
+      const a = new Float32Array(N*3);
+      for(let i=0;i<N;i++){
+        const p = pts.length ? pts[Math.floor(i/N*pts.length)] : [CW/2,CH/2];
+        const jx=(Math.random()-0.5)*1.7, jy=(Math.random()-0.5)*1.7;
+        a[i*3]   = ((p[0]+jx)/CW-0.5)*SPAN;
+        a[i*3+1] = -((p[1]+jy)/CH-0.5)*SPANY;
+        a[i*3+2] = (((i*37)%100)/100-0.5)*9;  // subtle depth so the plate isn't perfectly flat
+      }
+      return a;
+    };
+    const dot = (g,x,y,r)=>{ g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill(); };
+
+    // 1 — </> code tag
+    const codeTag = sampleShape((g,w,h)=>{ g.textAlign='center'; g.textBaseline='middle'; g.font='bold 108px monospace'; g.fillText('</>', w/2, h/2+4); });
+    // 2 — lines of code
+    const codeLines = sampleShape((g,w,h)=>{ const left=w*0.15, rh=(h-44)/7, ind=[0,18,18,36,18,0,18], wid=[0.46,0.28,0.40,0.24,0.50,0.34,0.22]; for(let r=0;r<7;r++){ const y=28+r*rh; g.fillRect(left+ind[r], y, wid[r]*w*0.7, 7); } });
+    // 3 — git commit graph (main line + branch that forks and merges)
+    const gitGraph = sampleShape((g,w,h)=>{ g.lineWidth=5; const xm=w*0.33, xb=w*0.60; g.beginPath(); g.moveTo(xm,h*0.08); g.lineTo(xm,h*0.94); g.stroke(); g.beginPath(); g.moveTo(xm,h*0.30); g.bezierCurveTo(xb,h*0.33,xb,h*0.36,xb,h*0.46); g.lineTo(xb,h*0.58); g.bezierCurveTo(xb,h*0.68,xb,h*0.71,xm,h*0.74); g.stroke(); [0.08,0.30,0.46,0.62,0.74,0.94].forEach(f=>dot(g,xm,h*f,7)); [0.46,0.58].forEach(f=>dot(g,xb,h*f,7)); });
+    // 4 — file / folder tree
+    const fileTree = sampleShape((g,w,h)=>{ g.lineWidth=4; const rx=w*0.24; g.beginPath(); g.moveTo(rx,h*0.16); g.lineTo(rx,h*0.80); g.stroke(); [[0.42,0.30],[0.42,0.46],[0.42,0.80]].forEach(([cx,cy])=>{ g.beginPath(); g.moveTo(rx,h*cy); g.lineTo(w*cx,h*cy); g.stroke(); }); g.beginPath(); g.moveTo(w*0.42,h*0.46); g.lineTo(w*0.42,h*0.62); g.stroke(); g.beginPath(); g.moveTo(w*0.42,h*0.62); g.lineTo(w*0.60,h*0.62); g.stroke(); [[0.24,0.12],[0.42,0.30],[0.42,0.46],[0.60,0.62],[0.42,0.80]].forEach(([nx,ny])=>{ g.fillRect(w*nx-2, h*ny-6, 32, 12); }); });
+    // 5 — terminal window running
+    const terminal = sampleShape((g,w,h)=>{ g.lineWidth=4; g.strokeRect(w*0.12,h*0.14,w*0.76,h*0.72); g.beginPath(); g.moveTo(w*0.12,h*0.25); g.lineTo(w*0.88,h*0.25); g.stroke(); [0.17,0.21,0.25].forEach(f=>dot(g,w*f,h*0.195,3)); g.font='12px monospace'; g.textAlign='left'; g.textBaseline='middle'; for(let r=0;r<4;r++){ let s=''; for(let k=0;k<22;k++) s+=(Math.random()<0.5?'0':'1'); g.fillText(s, w*0.16, h*(0.36+r*0.11)); } g.fillText('$ _', w*0.16, h*0.80); });
+
+    const shapes = [codeTag, codeLines, gitGraph, fileTree, terminal];
+
+    const pPos = new Float32Array(N*3); pPos.set(codeTag);
+    const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3));
+    const pMat = new THREE.PointsMaterial({ size:3.1, map:tex, transparent:true, opacity:0.92, depthWrite:false, blending:THREE.AdditiveBlending, color:0x8756c2, sizeAttenuation:true });
+    const points = new THREE.Points(pGeo, pMat);
+    const group = new THREE.Group(); group.add(points); scene.add(group);
+
+    let mx=0, my=0, tmx=0, tmy=0;
+    window.addEventListener('mousemove', (e)=>{ tmx=(e.clientX/window.innerWidth-0.5); tmy=(e.clientY/window.innerHeight-0.5); }, { passive:true });
+    this._onResize = () => { W=window.innerWidth; H=window.innerHeight; camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H); };
+    window.addEventListener('resize', this._onResize);
+
+    const ease = (t)=> t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+    const clock = new THREE.Clock();
+    this._lastLight = null;
+    const segs = shapes.length-1;
+    const animate = () => {
+      this._raf = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      const sp = this.scrollP||0;
+      const fpos = sp*segs;
+      let seg = Math.floor(fpos); if(seg>segs-1) seg=segs-1; if(seg<0) seg=0;
+      const lt = ease(Math.min(1, Math.max(0, fpos-seg)));
+      const A = shapes[seg], B = shapes[seg+1];
+      for(let i=0;i<N;i++){
+        const o=i*3;
+        const wob = Math.sin(t*0.9 + i*0.6) * 0.45;
+        pPos[o]   = A[o]   + (B[o]  -A[o]  )*lt + wob;
+        pPos[o+1] = A[o+1] + (B[o+1]-A[o+1])*lt + Math.cos(t*0.8 + i*0.7)*0.45;
+        pPos[o+2] = A[o+2] + (B[o+2]-A[o+2])*lt;
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      mx += (tmx-mx)*0.05; my += (tmy-my)*0.05;
+      // gentle sway only — diagrams stay facing the viewer and readable
+      group.rotation.y = mx*0.42 + Math.sin(t*0.14)*0.12;
+      group.rotation.x = my*0.26 + Math.sin(t*0.11)*0.05;
+      camera.position.z = 140 - Math.sin(sp*Math.PI)*12;
+      camera.position.x = mx*18;
+      camera.position.y = -my*13;
+      camera.lookAt(0,0,0);
+
+      const light = this.theme==='light';
+      if(this._lastLight !== light){ this._lastLight = light; pMat.blending = light?THREE.NormalBlending:THREE.AdditiveBlending; pMat.needsUpdate = true; }
+      pMat.color.set(this.props.accent || (light?0x6a52c2:0x8756c2));
+      pMat.opacity = light?0.72:0.92;
+      scene.fog.color.set(light?0xf6f7f8:0x08090a);
+      renderer.render(scene,camera);
+    };
+    animate();
+  }
+
+  // ---------- handlers exposed ----------
+  renderVals(){
+    return {
+      rootRef: this.rootRef,
+      canvasRef: this.canvasRef,
+      progressRef: this.progressRef,
+      navRef: this.navRef,
+      themeIconRef: this.themeIconRef,
+      roleRef: this.roleRef,
+      termRef: this.termRef,
+      projectsRef: this.projectsRef,
+      filterRef: this.filterRef,
+      searchRef: this.searchRef,
+      noResultsRef: this.noResultsRef,
+      paletteRef: this.paletteRef,
+      paletteInputRef: this.paletteInputRef,
+      paletteListRef: this.paletteListRef,
+      toggleTheme: () => this.toggleThemeImpl(),
+      scrollTo: (e) => { e.preventDefault(); this.goto(e.currentTarget.getAttribute('data-target')); },
+      openPalette: () => this.openPaletteImpl(),
+      paletteBackdrop: () => this.closePalette(),
+      stop: (e) => e.stopPropagation(),
+      paletteFilter: (e) => this.paletteFilterImpl(e.target.value),
+      paletteKeys: (e) => this.paletteKeysImpl(e),
+      toggleProject: (e) => { const pid=e.currentTarget.getAttribute('data-project'); const d=this.rootRef.current.querySelector('[data-detail="'+pid+'"]'); const isOpen = d && d.style.maxHeight && d.style.maxHeight!=='0px'; this.setProjectOpen(pid, !isOpen); },
+      filterProjects: (e) => this.filterImpl(e.currentTarget.getAttribute('data-filter'), e.currentTarget),
+      searchProjects: (e) => this.searchImpl(e.target.value),
+    };
+  }
+
+  // ---------- palette ----------
+  buildPalette(){ this.renderPalette(this.paletteItems); }
+  renderPalette(items){
+    const list = this.paletteListRef.current; if(!list) return;
+    this.palFiltered = items;
+    list.innerHTML = '';
+    items.forEach((it, i)=>{
+      const row = document.createElement('div');
+      row.setAttribute('data-pi', i);
+      row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 13px; border-radius:10px; cursor:pointer; font-size:14.5px; color:var(--text);';
+      row.innerHTML = '<span>'+it.label+'</span><span style="font-family:\'Geist Mono\',monospace; font-size:11px; color:var(--text-faint);">'+it.hint+'</span>';
+      row.addEventListener('mouseenter', ()=>{ this.palIndex=i; this.highlightPalette(); });
+      row.addEventListener('click', ()=>{ it.act(); if(it.hint!=='Action') this.closePalette(); });
+      list.appendChild(row);
+    });
+    this.palIndex = 0; this.highlightPalette();
+  }
+  highlightPalette(){
+    const list=this.paletteListRef.current; if(!list) return;
+    [...list.children].forEach((c,i)=>{ c.style.background = i===this.palIndex ? 'var(--accent-dim)' : 'transparent'; });
+  }
+  paletteFilterImpl(q){
+    q=(q||'').toLowerCase().trim();
+    const items = q ? this.paletteItems.filter(it=>it.label.toLowerCase().includes(q)||it.hint.toLowerCase().includes(q)) : this.paletteItems;
+    this.renderPalette(items);
+  }
+  paletteKeysImpl(e){
+    if(e.key==='ArrowDown'){ e.preventDefault(); this.palIndex=Math.min(this.palFiltered.length-1,this.palIndex+1); this.highlightPalette(); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); this.palIndex=Math.max(0,this.palIndex-1); this.highlightPalette(); }
+    else if(e.key==='Enter'){ e.preventDefault(); const it=this.palFiltered[this.palIndex]; if(it){ it.act(); if(it.hint!=='Action') this.closePalette(); } }
+  }
+  openPaletteImpl(){
+    const p=this.paletteRef.current; if(!p) return;
+    p.style.display='flex';
+    this.paletteFilterImpl('');
+    if(this.paletteInputRef.current){ this.paletteInputRef.current.value=''; setTimeout(()=>this.paletteInputRef.current.focus(),30); }
+  }
+  closePalette(){ const p=this.paletteRef.current; if(p) p.style.display='none'; }
+
+  // ---------- filter / search ----------
+  filterImpl(tag, btn){
+    // button styling
+    if(this.filterRef.current){
+      [...this.filterRef.current.children].forEach(b=>{
+        const on = b===btn;
+        b.style.background = on ? 'var(--text)' : 'var(--panel)';
+        b.style.color = on ? 'var(--bg)' : 'var(--text-dim)';
+        b.style.borderColor = on ? 'var(--border-strong)' : 'var(--border)';
+        b.style.fontWeight = on ? '500' : '400';
+      });
+    }
+    this._activeTag = tag;
+    this.applyProjectFilter();
+  }
+  searchImpl(q){ this._searchQ=(q||'').toLowerCase().trim(); this.applyProjectFilter(); }
+  applyProjectFilter(){
+    const root=this.rootRef.current; if(!root) return;
+    const tag=this._activeTag||'all'; const q=this._searchQ||'';
+    const cards=root.querySelectorAll('#work article');
+    let visible=0;
+    cards.forEach(c=>{
+      const tags=(c.getAttribute('data-tags')||'');
+      const text=(c.getAttribute('data-search')||'');
+      const tagOk = tag==='all' || tags.includes(tag);
+      const qOk = !q || text.includes(q);
+      const show = tagOk && qOk;
+      c.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+    if(this.noResultsRef.current) this.noResultsRef.current.style.display = visible===0 ? 'block' : 'none';
+  }
+}
+</script>
+</body>
+</html>
